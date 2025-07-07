@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Hilario Fit Style - Ropa Deportiva</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet"/>
+  <link href="style.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    #mainBackground {
+      position: absolute;
+      z-index: 0;
+      filter: blur(8px);
+      -webkit-filter: blur(8px);
+      transition: filter 0.4s;
+    }
+
+    .login-form-wrapper {
+      position: relative;
+      z-index: 10;
+      margin-top: 160px;
+      max-width: 380px;
+      margin-left: auto;
+      margin-right: auto;
+      background: rgba(0, 0, 0, 0.75);
+      padding: 35px 40px;
+      border-radius: 20px;
+      color: white;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .login-form-wrapper h2 {
+      font-size: 28px;
+      margin-bottom: 30px;
+      text-align: center;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .form-control {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      border-radius: 12px;
+      padding: 12px 15px;
+      margin-bottom: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+    }
+
+    .form-control::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .form-label {
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      display: block;
+    }
+
+    .btn-login {
+      width: 100%;
+      background: linear-gradient(45deg, #2C2C2C, #4A4A4A);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .btn-login:hover {
+      background: linear-gradient(45deg, #4A4A4A, #2C2C2C);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .error-msg {
+      margin-bottom: 15px;
+      color: #ff6b6b;
+      text-align: center;
+      font-size: 14px;
+      padding: 8px;
+      border-radius: 8px;
+      background: rgba(255, 107, 107, 0.1);
+    }
+
+    #logoText {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: white;
+    }
+
+    .text-gradient-title {
+      background: linear-gradient(90deg, #00c3ff 0%, #3a7bd5 50%, #00ecbc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+      text-shadow: 2px 4px 16px rgba(0,0,0,0.5), 0 2px 8px #00c3ff44;
+      letter-spacing: 0.08em;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Anton:wght@700&display=swap');
+    .retro-3d-title {
+      font-family: 'Anton', Arial, sans-serif;
+      color: #111;
+      position: relative;
+      text-shadow:
+        0 2px 0 #f7c873,
+        0 4px 0 #f15bb5,
+        0 6px 0 #24b0ef,
+        0 8px 0 #00f2a6,
+        0 10px 0 #fff,
+        2px 2px 0 #000,
+        0 12px 8px rgba(0,0,0,0.25);
+      letter-spacing: 0.08em;
+      line-height: 1.1;
+    }
+
+    .circle-social-btn {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%) scale(0.9);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      transition: transform 0.4s cubic-bezier(.68,-0.55,.27,1.55), opacity 0.3s;
+      z-index: 10;
+    }
+    #fbBtn { top: 0; left: 50%; }
+    #igBtn { top: 0; left: 50%; }
+    #logoContainer.active #fbBtn {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      transform: translate(-50%, 60px) scale(1.1);
+    }
+    #logoContainer.active #igBtn {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      transform: translate(-50%, 120px) scale(1.1);
+    }
+  </style>
+</head>
+
+<body class="bg-white">
+  <div id="modalDemo" class="modal-fullscreen" style="display:none;">
+    <div class="modal-content-horizontal">
+      <button class="modal-close-btn" onclick="document.getElementById('modalDemo').style.display='none'">&times;</button>
+      <div class="modal-form-section">
+        <h2>Selecciona nuestras últimas prendas</h2>
+        <label for="tipo">¿Qué prenda desea seleccionar?</label>
+        <select id="tipo">
+          <option>Asistir a la tienda física</option>
+          <option>Delivery</option>
+        </select>
+        <label for="nombre">Nombre completo</label>
+        <input id="nombre" type="text" placeholder="Tu nombre completo">
+        <label for="telefono">Teléfono</label>
+        <input id="telefono" type="text" placeholder="Número de teléfono">
+        <div id="extraCampos">
+          <!-- Campos adicionales según selección -->
+        </div>
+        <div class="modal-actions">
+          <button class="cancel-btn" onclick="document.getElementById('modalDemo').style.display='none'">Cancelar</button>
+          <button class="submit-btn">Enviar orden</button>
+        </div>
+      </div>
+      <div class="modal-side-section" id="modalSideInfo">
+        <!-- Aquí va la info de la tienda o métodos de pago -->
+        <div id="infoTienda">
+          <div style="font-weight:700;font-size:1.1rem;margin-bottom:12px;">Información de la Tienda</div>
+          <div style="margin-bottom:8px;"><i class="fas fa-map-marker-alt"></i> Jr Cataluña mza 14 Lote 6 URB. Puerta de Pro Lima-Comas</div>
+          <div style="margin-bottom:8px;"><i class="fas fa-clock"></i> Lunes a Sábado: 9:00 AM - 8:00 PM</div>
+          <div><i class="fas fa-phone"></i> +51 987654321</div>
+        </div>
+        <div id="metodosPago" style="display:none;">
+          <div style="font-weight:700;font-size:1.1rem;margin-bottom:12px;">Métodos de Pago</div>
+          <div class="metodos-pago">
+            <div class="metodo-pago-card" onclick="seleccionarPago(this)"><img src="images/plin.jpg" alt="Plin"></div>
+            <div class="metodo-pago-card" onclick="seleccionarPago(this)"><img src="images/YAPE.jpg" alt="Yape"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="relative w-full min-h-screen overflow-hidden flex flex-col items-center justify-center">
+    <img alt="Fondo" class="w-full h-full object-cover" height="1080" id="mainBackground" src="images/kiii.jpg" width="1920" />
+
+    <!-- Header con menú -->
+    <header class="fixed top-0 left-0 right-0 flex items-center px-6 py-3 z-50" style="background:transparent;">
+      <a href="index.html" class="flex items-center space-x-2 mr-8">
+        <img alt="Logo" class="w-16 h-16 rounded-full object-cover" src="images/logofondo.jpg" />
+      </a>
+      <nav class="inline-flex items-center bg-black bg-opacity-40 backdrop-blur-sm rounded-full px-2 py-2 mx-auto" style="justify-content:center;gap:0.2rem;">
+        <a class="menu-link" href="index.html">INICIO</a>
+        <a class="menu-link" href="#" id="contactoBtn">CONTÁCTENOS</a>
+        <a class="menu-link cart-icon flex items-center justify-center relative" id="cartIcon" href="carrito.html" style="padding-right:2.2rem;">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count" style="right:0;top:2px;">0</span>
+        </a>
+      </nav>
+      <div class="relative" id="avatarContainer">
+        <span class="w-12 h-12 flex items-center justify-center rounded-full bg-white/80 border-2 border-white shadow cursor-pointer" id="userAvatar" style="font-size:2rem;color:#232a36;">
+          <i class="fa-regular fa-circle-question"></i>
+        </span>
+        <div id="socialButtons" style="position:absolute;top:110%;right:0;display:flex;flex-direction:column;gap:12px;opacity:0;pointer-events:none;transition:opacity 0.4s, transform 0.4s;transform:translateY(-10px);z-index:100;">
+          <a href="#" class="circle-social-btn bg-blue-600 text-white" title="Facebook" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:1.3rem;"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="circle-social-btn bg-gradient-to-tr from-pink-500 via-red-500 to-yellow-500 text-white" title="Instagram" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:1.3rem;"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Login -->
+    <div class="login-form-wrapper" id="loginFormWrapper" style="background:rgba(20,22,28,0.92);max-width:420px;padding:38px 32px 32px 32px;border-radius:18px;box-shadow:0 8px 32px rgba(0,0,0,0.45);">
+      <form id="loginForm">
+        <div id="emailStep" style="margin-bottom:18px;">
+          <input type="text" class="form-control" id="usuario" placeholder="Usuario" required style="background:#181c23;color:#fff;border:1.5px solid #444;padding:16px 14px;font-size:1.08rem;border-radius:8px;box-shadow:none;outline:none;">
+        </div>
+        <div id="passwordStep" style="display:none;margin-bottom:18px;">
+          <input type="password" class="form-control" id="contrasena" placeholder="Contraseña" required style="background:#181c23;color:#fff;border:1.5px solid #444;padding:16px 14px;font-size:1.08rem;border-radius:8px;box-shadow:none;outline:none;">
+        </div>
+        <div class="flex items-center justify-between mb-2" style="margin-bottom:18px;">
+          <label class="flex items-center gap-2" style="color:#bdbdbd;font-size:0.97rem;">
+            <input type="checkbox" style="accent-color:#232a36;margin-right:6px;"> Remember Email
+          </label>
+          <a href="#" style="color:#bdbdbd;font-size:0.97rem;text-decoration:none;">Forgot Password?</a>
+        </div>
+        <div style="color:#bdbdbd;font-size:0.98rem;text-align:center;margin-bottom:10px;"></div>
+        <div id="errorMsg" class="error-msg" style="color:#ff6b6b;text-align:center;margin-bottom:10px;"></div>
+        <button type="submit" class="btn-login" style="width:100%;background:linear-gradient(90deg,#232a36 60%,#232a36 100%);color:#fff;font-size:1.13rem;font-weight:500;padding:13px 0;border-radius:24px;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:18px;">
+          <i class="fa-regular fa-user"></i> Entrar
+        </button>
+        <button type="button" class="btn-login" id="showRegisterBtn" style="width:100%;background:linear-gradient(90deg,#232a36 60%,#232a36 100%);color:#fff;font-size:1.13rem;font-weight:500;padding:13px 0;border-radius:24px;display:flex;align-items:center;justify-content:center;gap:10px;border:1.2px solid #444;">
+          <i class="fa-regular fa-user-plus"></i> Registrar
+        </button>
+      </form>
+    </div>
+    <div class="login-form-wrapper" id="registerFormWrapper" style="display:none;background:rgba(20,22,28,0.92);max-width:420px;padding:38px 32px 32px 32px;border-radius:18px;box-shadow:0 8px 32px rgba(0,0,0,0.45);">
+      <form id="registerForm">
+        <div style="margin-bottom:18px;">
+          <input type="text" class="form-control" id="regUsuario" placeholder="Usuario" required style="background:#181c23;color:#fff;border:1.5px solid #444;padding:16px 14px;font-size:1.08rem;border-radius:8px;box-shadow:none;outline:none;">
+        </div>
+        <div style="margin-bottom:18px;">
+          <input type="email" class="form-control" id="regEmail" placeholder="Email" required style="background:#181c23;color:#fff;border:1.5px solid #444;padding:16px 14px;font-size:1.08rem;border-radius:8px;box-shadow:none;outline:none;">
+        </div>
+        <div style="margin-bottom:18px;">
+          <input type="password" class="form-control" id="regPass" placeholder="Contraseña" required style="background:#181c23;color:#fff;border:1.5px solid #444;padding:16px 14px;font-size:1.08rem;border-radius:8px;box-shadow:none;outline:none;">
+        </div>
+        <div style="margin-bottom:18px;">
+          <input type="password" class="form-control" id="regPass2" placeholder="Confirmar contraseña" required style="background:#181c23;color:#fff;border:1.5px solid #444;padding:16px 14px;font-size:1.08rem;border-radius:8px;box-shadow:none;outline:none;">
+        </div>
+        <div class="flex items-center gap-2 mb-4" style="margin-bottom:18px;">
+          <input type="checkbox" id="regTerms" required style="accent-color:#232a36;margin-right:6px;">
+          <label for="regTerms" style="color:#bdbdbd;font-size:0.97rem;">Acepto los <a href="#" style="color:#4CAF50;text-decoration:underline;">términos y condiciones</a></label>
+        </div>
+        <div id="registerMsg" style="color:#ff6b6b;text-align:center;margin-bottom:10px;"></div>
+        <button type="submit" class="btn-login" style="width:100%;background:linear-gradient(90deg,#232a36 60%,#232a36 100%);color:#fff;font-size:1.13rem;font-weight:500;padding:13px 0;border-radius:24px;display:flex;align-items:center;justify-content:center;gap:10px;">
+          <i class="fa-regular fa-user-plus"></i> Registrar
+        </button>
+        <button type="button" id="backToLoginBtn" class="btn-login" style="width:100%;background:none;color:#fff;font-size:1.13rem;font-weight:500;padding:13px 0;border-radius:24px;display:flex;align-items:center;justify-content:center;gap:10px;border:1.2px solid #444;margin-top:10px;">
+          <i class="fa-solid fa-arrow-left"></i> Volver a iniciar sesión
+        </button>
+      </form>
+    </div>
+
+    <!-- Contenido Principal (oculto inicialmente) -->
+    <main class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl px-6 text-center hidden" id="mainContent">
+      <div class="p-8 mb-8">
+        <h1 class="retro-3d-title text-4xl md:text-6xl mb-2 font-extrabold uppercase tracking-wide font-['Anton']">¡ESTILO DEPORTIVO</h1>
+        <h2 class="retro-3d-title text-6xl md:text-9xl leading-tight font-extrabold uppercase tracking-widest mb-2 font-['Anton']">HILARIO FIT STYLE!</h2>
+      </div>
+      <div class="flex flex-col md:flex-row justify-center gap-6 mt-8">
+        <button class="bg-black hover:bg-gray-900 text-white font-bold py-4 px-8 rounded-full text-xl transition-all transform hover:scale-105 shadow-lg" id="seleccionBtn">
+          Selecciona tu prenda favorita
+        </button>
+        <button class="bg-white hover:bg-gray-100 text-black font-bold py-4 px-8 rounded-full text-xl transition-all transform hover:scale-105 shadow-lg border-2 border-black" id="catalogoBtn">
+          Nuestro catálogo
+        </button>
+        </div>
+    </main>
+
+    <!-- Modal de Contacto -->
+    <div id="contactoModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+      <div class="bg-white rounded-lg p-8 max-w-2xl w-full mx-4 relative">
+        <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-700" id="cerrarContacto" title="Cerrar ventana de contacto">
+          <i class="fas fa-times text-xl"></i>
+        </button>
+        <div class="text-center">
+          <h2 class="text-4xl font-bold mb-8">Contáctenos</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+            <div>
+              <p class="mb-4">
+                <span class="font-bold">Dirección:</span><br>
+                Jr Cataluña mza 14 Lote 6 URB.<br>
+                Puerta de Pro Lima-Comas
+              </p>
+              <p class="mb-4">
+                <span class="font-bold">Teléfono:</span><br>
+                999 024 889
+              </p>
+            </div>
+            <div>
+              <p class="mb-4">
+                <span class="font-bold">Correo electrónico:</span><br>
+                hilarioisidriosilvia@gmail.com
+              </p>
+              <p class="mb-4">
+                <span class="font-bold">Horario de atención:</span><br>
+                08:00 AM a 07:00 PM
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Carrito Modal -->
+    <div class="cart-modal" id="cartModal">
+      <h3>Carrito de Compras</h3>
+      <div class="cart-items" id="cartItems">
+        <!-- Los items del carrito se agregarán dinámicamente -->
+      </div>
+      <div class="cart-total">
+        <span>Total:</span>
+        <span id="cartTotal">S/ 0.00</span>
+      </div>
+      <button class="main-button" id="checkoutBtn">Proceder al pago</button>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const user = document.getElementById("usuario").value.trim();
+      const pass = document.getElementById("contrasena").value.trim();
+      const errorDiv = document.getElementById("errorMsg");
+      const loginWrapper = document.getElementById("loginFormWrapper");
+      const mainContent = document.getElementById("mainContent");
+
+      if (user === "ropadeportiva" && pass === "12345") {
+        loginWrapper.style.display = "none";
+        mainContent.classList.remove("hidden");
+      } else {
+        errorDiv.textContent = "Usuario o contraseña incorrectos.";
+      }
+    });
+    
+    // Funcionalidad para el modal de contacto
+    document.addEventListener('DOMContentLoaded', function() {
+      const contactoBtn = document.getElementById('contactoBtn');
+      const contactoModal = document.getElementById('contactoModal');
+      const cerrarContacto = document.getElementById('cerrarContacto');
+
+      contactoBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        contactoModal.classList.remove('hidden');
+        contactoModal.classList.add('flex');
+      });
+
+      cerrarContacto.addEventListener('click', function() {
+        contactoModal.classList.add('hidden');
+        contactoModal.classList.remove('flex');
+      });
+
+      contactoModal.addEventListener('click', function(e) {
+        if (e.target === contactoModal) {
+          contactoModal.classList.add('hidden');
+          contactoModal.classList.remove('flex');
+        }
+      });
+    });
+
+    // Cambia los campos y la sección lateral según la selección
+    document.getElementById('tipo').addEventListener('change', function() {
+      const extra = document.getElementById('extraCampos');
+      const infoTienda = document.getElementById('infoTienda');
+      const metodosPago = document.getElementById('metodosPago');
+      if (this.value === 'Delivery') {
+        extra.innerHTML = `
+          <label for='direccion'>Dirección completa</label>
+          <input id='direccion' type='text' placeholder='Calle, número, colonia, ciudad, código postal'>
+          <label for='instrucciones'>Instrucciones para el delivery</label>
+          <textarea id='instrucciones' placeholder='¿Alguna indicación especial para la entrega?'></textarea>
+        `;
+        infoTienda.style.display = 'none';
+        metodosPago.style.display = 'block';
+      } else {
+        extra.innerHTML = `
+          <label for='personas'>Número de personas</label>
+          <input id='personas' type='number' placeholder='Cantidad de personas'>
+          <label for='hora'>Horario de visita</label>
+          <select id='hora'>
+            <option>Elige una hora</option>
+            <option>09:00 AM</option>
+            <option>10:00 AM</option>
+            <option>11:00 AM</option>
+            <option>12:00 PM</option>
+            <option>01:00 PM</option>
+            <option>02:00 PM</option>
+            <option>03:00 PM</option>
+            <option>04:00 PM</option>
+            <option>05:00 PM</option>
+            <option>06:00 PM</option>
+            <option>07:00 PM</option>
+          </select>
+          <label for='comentarios'>Comentarios adicionales</label>
+          <textarea id='comentarios' placeholder='¿Alguna petición especial?'></textarea>
+        `;
+        infoTienda.style.display = 'block';
+        metodosPago.style.display = 'none';
+      }
+    });
+    // Selección visual de método de pago
+    window.seleccionarPago = function(card) {
+      document.querySelectorAll('.metodo-pago-card').forEach(c=>c.classList.remove('selected'));
+      card.classList.add('selected');
+    }
+    // Inicializar campos según valor por defecto
+    document.getElementById('tipo').dispatchEvent(new Event('change'));
+    // Abrir modal al hacer clic en el botón 'Selecciona tu prenda favorita'
+    document.getElementById('seleccionBtn').addEventListener('click', function() {
+      document.getElementById('modalDemo').style.display = 'flex';
+      document.getElementById('mainContent').style.display = 'none';
+    });
+    // Evento para cerrar el modal y mostrar los botones principales
+    document.querySelectorAll('.cancel-btn, .modal-close-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.getElementById('modalDemo').style.display = 'none';
+        const mainContent = document.getElementById('mainContent');
+        mainContent.classList.remove('hidden');
+        mainContent.style.display = 'block';
+                });
+            });
+    // Evento para enviar orden, cerrar modal y mostrar mensaje de éxito
+    document.querySelector('.submit-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+      document.getElementById('modalDemo').style.display = 'none';
+      const mainContent = document.getElementById('mainContent');
+      mainContent.classList.remove('hidden');
+      mainContent.style.display = 'block';
+      // Mostrar mensaje de éxito
+      let msg = document.createElement('div');
+      msg.textContent = '¡Orden enviada con éxito! Nos pondremos en contacto contigo pronto.';
+      msg.style.position = 'fixed';
+      msg.style.top = '30px';
+      msg.style.left = '50%';
+      msg.style.transform = 'translateX(-50%)';
+      msg.style.background = '#232a36';
+      msg.style.color = '#fff';
+      msg.style.padding = '16px 32px';
+      msg.style.borderRadius = '12px';
+      msg.style.fontWeight = 'bold';
+      msg.style.fontSize = '1.2rem';
+      msg.style.zIndex = '10001';
+      document.body.appendChild(msg);
+      setTimeout(()=>msg.remove(), 2500);
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const avatar = document.getElementById('userAvatar');
+      const social = document.getElementById('socialButtons');
+      const avatarContainer = document.getElementById('avatarContainer');
+      let open = false;
+      avatar.addEventListener('click', function(e) {
+        e.stopPropagation();
+        open = !open;
+        if(open) {
+          social.style.opacity = '1';
+          social.style.pointerEvents = 'auto';
+          social.style.transform = 'translateY(0)';
+        } else {
+          social.style.opacity = '0';
+          social.style.pointerEvents = 'none';
+          social.style.transform = 'translateY(-10px)';
+        }
+      });
+      document.addEventListener('click', function(e) {
+        if(!avatarContainer.contains(e.target)) {
+          social.style.opacity = '0';
+          social.style.pointerEvents = 'none';
+          social.style.transform = 'translateY(-10px)';
+          open = false;
+        }
+      });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const usuarioInput = document.getElementById('usuario');
+      const passwordStep = document.getElementById('passwordStep');
+      const passwordInput = document.getElementById('contrasena');
+      usuarioInput.addEventListener('keydown', function(e) {
+        if(e.key === 'Enter') {
+          e.preventDefault();
+          passwordStep.style.display = 'block';
+          passwordInput.focus();
+        }
+      });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const showRegisterBtn = document.getElementById('showRegisterBtn');
+      const loginFormWrapper = document.getElementById('loginFormWrapper');
+      const registerFormWrapper = document.getElementById('registerFormWrapper');
+      const backToLoginBtn = document.getElementById('backToLoginBtn');
+      showRegisterBtn.addEventListener('click', function() {
+        loginFormWrapper.style.display = 'none';
+        registerFormWrapper.style.display = 'block';
+      });
+      backToLoginBtn.addEventListener('click', function() {
+        registerFormWrapper.style.display = 'none';
+        loginFormWrapper.style.display = 'block';
+      });
+    });
+    </script>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- JavaScript principal -->
+  <script src="app.js"></script>
+</body>
+</html>

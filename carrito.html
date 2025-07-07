@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carro de Compras - Hilario Fit Style</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background: #f5f6fa;
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+        }
+        .carrito-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            display: flex;
+            gap: 32px;
+            padding: 0 16px;
+        }
+        .carrito-lista {
+            flex: 2;
+        }
+        .carrito-titulo {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: #222;
+        }
+        .carrito-producto {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            display: flex;
+            align-items: center;
+            padding: 18px 24px;
+            margin-bottom: 18px;
+            gap: 18px;
+        }
+        .carrito-producto img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .carrito-producto-info {
+            flex: 1;
+        }
+        .carrito-producto-nombre {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .carrito-producto-precio {
+            color: #222;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        .carrito-producto-cantidad {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .carrito-producto-cantidad input {
+            width: 40px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 4px 0;
+        }
+        .carrito-producto-eliminar {
+            background: none;
+            border: none;
+            color: #ff6b6b;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-left: 12px;
+        }
+        .carrito-resumen {
+            flex: 1;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            padding: 28px 24px;
+            height: fit-content;
+        }
+        .carrito-resumen-titulo {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 18px;
+            color: #222;
+        }
+        .carrito-resumen-linea {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+        .carrito-resumen-total {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-top: 18px;
+            margin-bottom: 18px;
+        }
+        .carrito-btn-comprar {
+            width: 100%;
+            background: #222;
+            color: #fff;
+            border: none;
+            border-radius: 24px;
+            padding: 14px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .carrito-btn-comprar:hover {
+            background: #444;
+        }
+        @media (max-width: 900px) {
+            .carrito-container {
+                flex-direction: column;
+            }
+            .carrito-resumen {
+                margin-top: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="carrito-container">
+        <div class="carrito-lista">
+            <div class="carrito-titulo">Carro (<span id="carrito-cantidad">0</span> productos)</div>
+            <div id="carrito-productos-table"></div>
+        </div>
+        <div class="carrito-resumen">
+            <div class="carrito-resumen-titulo">Resumen de la orden</div>
+            <div class="carrito-resumen-linea">
+                <span style="font-weight:700;color:#222;">Productos (<span id="resumen-cantidad">0</span>)</span>
+                <span id="resumen-subtotal" style="font-weight:700;color:#222;">S/ 0.00</span>
+            </div>
+            <div class="carrito-resumen-linea">
+                <span style="font-weight:700;color:#222;">Descuentos (0)</span>
+                <span id="resumen-descuento" style="font-weight:700;color:#222;">S/ 0.00</span>
+            </div>
+            <div class="carrito-resumen-total">
+                <span style="font-weight:700;color:#222;">Total:</span> <span id="resumen-total" style="font-weight:700;color:#222;">S/ 0.00</span>
+            </div>
+            <button class="carrito-btn-comprar">Continuar compra</button>
+        </div>
+    </div>
+    <!-- Modal Google Maps -->
+    <div id="mapModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);align-items:center;justify-content:center;">
+        <div style="background:#fff;border-radius:16px;max-width:95vw;width:440px;padding:0 0 24px 0;position:relative;box-shadow:0 8px 32px rgba(0,0,0,0.25);display:flex;flex-direction:column;">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 24px 0 24px;">
+                <div style="display:flex;align-items:center;gap:8px;font-size:1.1rem;font-weight:500;color:#232a36;">
+                    <i class="fa-regular fa-location-dot"></i> Confirma la dirección
+                </div>
+                <button id="closeMapModal" style="font-size:1.5rem;background:none;border:none;cursor:pointer;color:#888;">&times;</button>
+            </div>
+            <div style="padding:0 24px 0 24px;">
+                <div style="display:flex;align-items:center;gap:8px;color:#f7b500;font-size:1.02rem;margin:12px 0 8px 0;">
+                    <i class="fa-solid fa-exclamation-triangle"></i> Fija la ubicación exacta en el mapa.
+                </div>
+                <div id="map" style="width:100%;height:220px;border-radius:12px;overflow:hidden;position:relative;"></div>
+                <div style="margin-top:16px;">
+                    <label for="direccionInput" style="font-size:0.98rem;color:#232a36;font-weight:500;">Dirección</label>
+                    <input id="direccionInput" type="text" style="width:100%;padding:8px 12px;margin-top:6px;border-radius:8px;border:1px solid #ccc;font-size:1rem;" />
+                </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;gap:12px;padding:24px 24px 0 24px;">
+                <button id="volverMapModal" style="background:none;border:1.5px solid #bbb;color:#232a36;padding:10px 0;border-radius:8px;font-weight:500;font-size:1rem;width:48%;">Volver</button>
+                <button id="selectMapAddress" style="background:#232a36;color:#fff;padding:10px 0;border-radius:8px;font-weight:600;font-size:1rem;border:none;width:48%;">Confirmar y Guardar</button>
+            </div>
+        </div>
+    </div>
+    <div id="confirmacionCompra" style="display:none;"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-EXAMPLE-KEY&libraries=places"></script>
+    <script>
+        // Leer carrito de localStorage
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const productosTableDiv = document.getElementById('carrito-productos-table');
+        const cantidadSpan = document.getElementById('carrito-cantidad');
+        const resumenCantidad = document.getElementById('resumen-cantidad');
+        const resumenSubtotal = document.getElementById('resumen-subtotal');
+        const resumenDescuento = document.getElementById('resumen-descuento');
+        const resumenTotal = document.getElementById('resumen-total');
+        const btnComprar = document.querySelector('.carrito-btn-comprar');
+
+        let costoEnvio = 8.90;
+        let envioGratis = false;
+        let medioPago = '';
+
+        // Declarar variables globales para el mapa
+        let map, marker, geocoder, autocomplete, selectedAddress = '';
+
+        function renderCarritoTable() {
+            cantidadSpan.textContent = cart.length;
+            resumenCantidad.textContent = cart.length;
+            let subtotal = 0;
+            let table = `<table style="width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+                <thead>
+                    <tr style="background:#f5f6fa;text-align:left;">
+                        <th style="padding:12px 8px;font-weight:700;color:#222;">Producto</th>
+                        <th style="padding:12px 8px;font-weight:700;color:#222;">Cantidad</th>
+                        <th style="padding:12px 8px;font-weight:700;color:#222;">Precio Unitario (S/)</th>
+                        <th style="padding:12px 8px;font-weight:700;color:#222;">Subtotal (S/)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>`;
+            cart.forEach((item, idx) => {
+                const itemSubtotal = item.price * (item.qty || 1);
+                subtotal += itemSubtotal;
+                table += `<tr style="border-bottom:1px solid #eee;">
+                    <td style="padding:10px 8px;display:flex;align-items:center;gap:10px;font-weight:600;color:#222;">
+                        <img src="${item.image}" alt="${item.name}" style="width:48px;height:48px;object-fit:cover;border-radius:6px;">
+                        <span>${item.name}</span>
+                    </td>
+                    <td style="padding:10px 8px;font-weight:600;color:#222;">
+                        <button class="qty-btn" data-idx="${idx}" data-action="minus" style="padding:2px 8px;">-</button>
+                        <input type="text" value="${item.qty || 1}" data-idx="${idx}" class="qty-input" style="width:32px;text-align:center;border:1px solid #ccc;border-radius:4px;">
+                        <button class="qty-btn" data-idx="${idx}" data-action="plus" style="padding:2px 8px;">+</button>
+                    </td>
+                    <td style="padding:10px 8px;font-weight:600;color:#222;">${item.price.toFixed(2)}</td>
+                    <td style="padding:10px 8px;font-weight:600;color:#222;">${itemSubtotal.toFixed(2)}</td>
+                    <td style="padding:10px 8px;">
+                        <button class="carrito-producto-eliminar" title="Eliminar" data-index="${idx}" style="color:#ff6b6b;background:none;border:none;font-size:1.1rem;cursor:pointer;"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>`;
+            });
+            table += `</tbody></table>`;
+            productosTableDiv.innerHTML = table;
+            resumenSubtotal.textContent = `S/ ${subtotal.toFixed(2)}`;
+            resumenTotal.textContent = `S/ ${(subtotal + (envioGratis ? 0 : costoEnvio)).toFixed(2)}`;
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        productosTableDiv.addEventListener('click', function(e) {
+            if (e.target.classList.contains('qty-btn')) {
+                const idx = parseInt(e.target.getAttribute('data-idx'));
+                const action = e.target.getAttribute('data-action');
+                if (!cart[idx].qty) cart[idx].qty = 1;
+                if (action === 'plus') cart[idx].qty++;
+                if (action === 'minus' && cart[idx].qty > 1) cart[idx].qty--;
+                renderCarritoTable();
+            }
+            if (e.target.closest('.carrito-producto-eliminar')) {
+                const idx = e.target.closest('.carrito-producto-eliminar').getAttribute('data-index');
+                cart.splice(idx, 1);
+                renderCarritoTable();
+            }
+        });
+
+        productosTableDiv.addEventListener('change', function(e) {
+            if (e.target.classList.contains('qty-input')) {
+                const idx = parseInt(e.target.getAttribute('data-idx'));
+                let val = parseInt(e.target.value);
+                if (isNaN(val) || val < 1) val = 1;
+                cart[idx].qty = val;
+                renderCarritoTable();
+            }
+        });
+
+        btnComprar.addEventListener('click', function() {
+            document.querySelector('.carrito-container').style.display = 'none';
+            document.getElementById('confirmacionCompra').style.display = 'block';
+            let direccionUsuario = localStorage.getItem('direccionUsuario');
+            let direccionHtml = '';
+            if (direccionUsuario) {
+                direccionHtml = `${direccionUsuario} <a href='#' id='cambiarDireccionBtn' style='font-size:0.95em;float:right;color:#222;font-weight:400;'>Cambiar dirección</a>`;
+            } else {
+                direccionHtml = `<a href='#' id='cambiarDireccionBtn' style='font-size:1.05em;color:#232a36;font-weight:600;text-decoration:underline;'>Agregar dirección</a>`;
+            }
+            document.getElementById('confirmacionCompra').innerHTML = `
+            <div style="max-width:1200px;margin:40px auto;padding:0 16px;display:flex;gap:32px;">
+                <div style="flex:2;">
+                    <h2 style="font-size:2rem;font-weight:700;margin-bottom:24px;color:#222;">Confirma y paga tu compra</h2>
+                    <div style="background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);padding:24px 24px 18px 24px;margin-bottom:24px;">
+                        <div style="font-weight:600;margin-bottom:12px;color:#222;">Mejores opciones de entrega</div>
+                        <div style="color:#222;font-weight:400;" id="direccionResumen">${direccionHtml}</div>
+                        <div style="margin-bottom:10px;">
+                            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;color:#222;font-weight:400;">
+                                <input type="radio" name="entrega" value="domicilio" checked style="accent-color:#222;">
+                                <span>Llega el <b>jueves 10 de jul.</b> de 9 a 21 h.</span>
+                                <span style="margin-left:auto;color:#222;font-weight:400;">S/ 8.90</span>
+                            </label>
+                            <a href='#' style='font-size:0.95em;margin-left:32px;color:#222;font-weight:400;'>Cambiar fecha</a>
+                        </div>
+                        <hr style="margin:12px 0;">
+                        <div>
+                            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;color:#222;font-weight:400;">
+                                <input type="radio" name="entrega" value="retiro" style="accent-color:#222;">
+                                <span>Retira desde el <b>09 de jul.</b></span>
+                                <span style="margin-left:auto;color:green;font-weight:400;">Gratis</span>
+                            </label>
+                            <div style="font-size:0.95em;margin-left:32px;color:#222;font-weight:400;">En Tottus Tusilagos (6km) <a href='#' style='color:#222;font-weight:400;'>Más Puntos de entrega</a></div>
+                        </div>
+                    </div>
+                    <div style="background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);padding:24px 24px 18px 24px;">
+                        <div style="font-weight:600;margin-bottom:12px;color:#222;">Selecciona medio de pago</div>
+                        <div style="display:flex;gap:24px;">
+                            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;color:#222;font-weight:400;">
+                                <input type="radio" name="pago" value="yape" checked style="accent-color:#7c3aed;">
+                                <img src="images/YAPE.jpg" alt="Yape" style="width:40px;height:40px;border-radius:8px;object-fit:cover;">
+                                <span>Yape</span>
+                            </label>
+                            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;color:#222;font-weight:400;">
+                                <input type="radio" name="pago" value="plin" style="accent-color:#00bcd4;">
+                                <img src="images/plin.jpg" alt="Plin" style="width:40px;height:40px;border-radius:8px;object-fit:cover;">
+                                <span>Plin</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div style="flex:1;background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);padding:28px 24px;height:fit-content;">
+                    <div style="font-size:1.3rem;font-weight:600;margin-bottom:18px;color:#222;">Resumen de la compra</div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:1rem;">
+                        <span style="color:#222;font-weight:400;">Productos (<span id='resumen-cantidad2'></span>)</span>
+                        <span id='resumen-subtotal2' style="color:#222;font-weight:400;">S/ 0.00</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:1rem;">
+                        <span style="color:#222;font-weight:400;">Descuentos (0)</span>
+                        <span id='resumen-descuento2' style="color:#222;font-weight:400;">S/ 0.00</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:1rem;">
+                        <span style="color:#222;font-weight:400;">Entregas (1)</span>
+                        <span id='resumen-envio2' style="color:#222;font-weight:400;">S/ 8.90</span>
+                    </div>
+                    <div style="font-size:1.2rem;font-weight:700;margin-top:18px;margin-bottom:18px;color:#222;">Total: <span id='resumen-total2' style="color:#222;font-weight:700;">S/ 0.00</span></div>
+                    <button id='btnPagarAhora' style='width:100%;background:#222;color:#fff;border:none;border-radius:24px;padding:14px 0;font-size:1.1rem;font-weight:600;cursor:pointer;transition:background 0.2s;'>Pagar ahora</button>
+                </div>
+            </div>
+            `;
+            // Ahora agrego el JS para la sección de confirmación
+            setTimeout(function() {
+                let subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+                let envio = 8.90;
+                let total = subtotal + envio;
+                document.getElementById('resumen-subtotal2').textContent = `S/ ${subtotal.toFixed(2)}`;
+                document.getElementById('resumen-descuento2').textContent = 'S/ 0.00';
+                document.getElementById('resumen-envio2').textContent = `S/ ${envio.toFixed(2)}`;
+                document.getElementById('resumen-total2').textContent = `S/ ${total.toFixed(2)}`;
+                document.querySelectorAll('input[name=entrega]').forEach(radio => {
+                    radio.addEventListener('change', function() {
+                        envio = (this.value === 'retiro') ? 0 : 8.90;
+                        total = subtotal + envio;
+                        document.getElementById('resumen-envio2').textContent = `S/ ${envio.toFixed(2)}`;
+                        document.getElementById('resumen-total2').textContent = `S/ ${total.toFixed(2)}`;
+                    });
+                });
+                document.querySelectorAll('input[name=pago]').forEach(radio => {
+                    radio.addEventListener('change', function() {
+                        medioPago = this.value;
+                    });
+                });
+                document.getElementById('btnPagarAhora').addEventListener('click', function() {
+                    if (!localStorage.getItem('direccionUsuario')) {
+                        alert('Por favor, agrega una dirección antes de continuar con el pago.');
+                        return;
+                    }
+                    alert('¡Gracias por tu compra! Medio de pago: ' + (medioPago || 'Yape'));
+                    localStorage.removeItem('cart');
+                    window.location.href = 'index.html#mainContent';
+                });
+                const btnCambiarDireccion = document.getElementById('cambiarDireccionBtn');
+                if (btnCambiarDireccion) {
+                    btnCambiarDireccion.onclick = function(e) { e.preventDefault(); openMapModal(); };
+                }
+            }, 100);
+        });
+
+        renderCarritoTable();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Modal Google Maps
+            const mapModal = document.getElementById('mapModal');
+            const closeMapModal = document.getElementById('closeMapModal');
+            const selectMapAddress = document.getElementById('selectMapAddress');
+            let addressSpan = null;
+
+            function openMapModal() {
+                const mapModal = document.getElementById('mapModal');
+                mapModal.style.display = 'flex';
+                setTimeout(() => {
+                    document.getElementById('map').innerHTML = '';
+                    map = new google.maps.Map(document.getElementById('map'), {
+                        center: { lat: -12.0464, lng: -77.0428 },
+                        zoom: 14
+                    });
+                    marker = new google.maps.Marker({ map, draggable:true });
+                    geocoder = new google.maps.Geocoder();
+                    autocomplete = new google.maps.places.Autocomplete(document.getElementById('direccionInput'));
+                    autocomplete.bindTo('bounds', map);
+                    autocomplete.addListener('place_changed', function() {
+                        const place = autocomplete.getPlace();
+                        if (!place.geometry) return;
+                        map.panTo(place.geometry.location);
+                        marker.setPosition(place.geometry.location);
+                        getAddress(place.geometry.location);
+                    });
+                    map.addListener('click', function(e) {
+                        marker.setPosition(e.latLng);
+                        getAddress(e.latLng);
+                    });
+                    marker.addEventListener('dragend', function(e) {
+                        getAddress(e.latLng);
+                    });
+                    // Si hay dirección guardada, ponerla en el input
+                    const direccionGuardada = localStorage.getItem('direccionUsuario');
+                    if (direccionGuardada) {
+                        document.getElementById('direccionInput').value = direccionGuardada;
+                        selectedAddress = direccionGuardada;
+                    } else {
+                        document.getElementById('direccionInput').value = '';
+                        selectedAddress = '';
+                    }
+                }, 100);
+            }
+            function closeMap() {
+                mapModal.style.display = 'none';
+            }
+            closeMapModal.onclick = closeMap;
+            selectMapAddress.onclick = function() {
+                if(selectedAddress) {
+                    localStorage.setItem('direccionUsuario', selectedAddress);
+                    // Actualizar en la vista de confirmación si existe
+                    const resumen = document.getElementById('direccionResumen');
+                    if(resumen) resumen.innerHTML = selectedAddress + ' <a href="#" id="cambiarDireccionBtn" style="font-size:0.95em;float:right;color:#222;font-weight:400;">Cambiar dirección</a>';
+                    closeMap();
+                    // Volver a asignar el evento al nuevo botón si estamos en confirmación
+                    const btn = document.getElementById('cambiarDireccionBtn');
+                    if(btn) btn.onclick = function(e) { e.preventDefault(); openMapModal(); };
+                } else {
+                    alert('Selecciona o escribe una dirección.');
+                }
+            };
+            // En la función openMapModal:
+            function getAddress(latlng) {
+                geocoder.geocode({ location: latlng }, function(results, status) {
+                    if (status === 'OK' && results[0]) {
+                        selectedAddress = results[0].formatted_address;
+                    }
+                });
+            }
+            // Al cargar la página, mostrar dirección guardada si existe
+            const direccionGuardada = localStorage.getItem('direccionUsuario');
+            if (direccionGuardada) {
+                const addressSpan = document.querySelector('.carrito-resumen .carrito-resumen-linea span[style*="float:right"], .carrito-resumen .carrito-resumen-linea span:last-child');
+                if(addressSpan) addressSpan.textContent = direccionGuardada;
+            }
+        });
+    </script>
+</body>
+</html> 
